@@ -127,9 +127,9 @@ export default function Home(props: HomeProps) {
     <TwitterLayout>
       <div className="col-span-6 h-screen overflow-scroll no-scrollbar">
         <div>
-          <div className="rounded-xl mt-5 border border-cardcol mx-5 p-5  hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
-            <div className="grid grid-cols-12 gap-5">
-              <div className="col-span-1">
+          <div className="rounded-xl mt-5 border border-cardcol mx-2 md:mx-5 pt-1 px-2 pb-2 md:p-5  hover:shadow-lg hover:scale-105 transition-all cursor-pointer">
+            <div className="grid grid-cols-12 gap-1 md:gap-5">
+              <div className="hidden md:block md:col-span-1">
                 {user && user.profileImageURL && (
                   <Image
                     src={user.profileImageURL}
@@ -140,9 +140,9 @@ export default function Home(props: HomeProps) {
                   />
                 )}
               </div>
-              <div className="col-span-11  ">
+              <div className=" col-span-12 md:col-span-11  ">
                 <textarea
-                  className="w-full bg-transparent text-xl p-3 border-b border-white focus:outline-none"
+                  className="w-full bg-transparent text-sm md:text-xl p-3 border-b border-gray-400 focus:outline-none"
                   rows={5}
                   placeholder="What's Happening?..."
                   name=""
@@ -162,7 +162,7 @@ export default function Home(props: HomeProps) {
                   <BiImageAlt onClick={() => handleSelectImage()} />
                   <button
                     onClick={handleCreateTweet}
-                    className="bg-buzzmain px-4 py-2 text-sm font-bold ml-5 rounded-full"
+                    className="bg-buzzmain  px-4 py-2 text-xs md:text-sm font-bold ml-5  rounded-full"
                   >
                     Post
                   </button>
