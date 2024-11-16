@@ -1,3 +1,4 @@
+import { Int } from "graphql-request/alpha/schema/scalars";
 import { graphql } from "../../gql";
 import { TypedDocumentNode } from "@graphql-typed-document-node/core";
 
@@ -11,6 +12,8 @@ export interface Tweet {
     profileImageURL?: string | null;
     id: string;
   };
+  isLiked: boolean;
+  likeCount?: Int;
 }
 
 export const getAllTweetsQuery = graphql(`
@@ -25,6 +28,8 @@ export const getAllTweetsQuery = graphql(`
         profileImageURL
         id
       }
+      isLiked
+      likeCount
     }
   }
 `);

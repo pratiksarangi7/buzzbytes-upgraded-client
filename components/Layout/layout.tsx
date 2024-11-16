@@ -61,7 +61,7 @@ const TwitterLayout: React.FC<LayoutProps> = (props) => {
 
   return (
     <div className="grid grid-cols-12 h-screen w-screen bg-bg gap-0">
-      <div className="col-span-2 md:col-span-3 flex flex-col pl-4 md:pl-20 pt-8 items-center md:items-start justify-start w-full relative">
+      <div className="col-span-2 md:col-span-3 flex flex-col pl-1 md:pl-24 pt-8 items-center md:items-start justify-start w-full relative">
         <div className="flex items-center gap-2">
           <Logo />
           <span className="text-xl md:text-2xl font-bold hidden md:block">
@@ -73,7 +73,7 @@ const TwitterLayout: React.FC<LayoutProps> = (props) => {
             {sidebarMenuItems.map((item) => (
               <li
                 key={item.title}
-                className="flex items-center gap-3 text-lg md:text-[20px] font-semibold cursor-pointer hover:bg-gray-700 rounded-3xl w-fit px-2 py-3"
+                className="flex items-center gap-3 text-[20px] md:text-[21px] font-semibold cursor-pointer hover:bg-gray-700 rounded-3xl w-fit px-2 py-3"
               >
                 <Link href={item.link}>
                   <span className="flex items-center gap-3">

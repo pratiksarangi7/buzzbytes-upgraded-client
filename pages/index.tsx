@@ -6,7 +6,7 @@ import { BiHash, BiUser, BiImageAlt } from "react-icons/bi";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import FeedCard from "@/components/FeedCard";
 import { SlOptions } from "react-icons/sl";
-import { useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { graphQLClient } from "@/clients/api";
 import { verifyUserGoogleTokenQuery } from "@/graphql/query/user";

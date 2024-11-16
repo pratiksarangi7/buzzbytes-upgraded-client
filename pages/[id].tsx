@@ -48,10 +48,7 @@ const userProfilePage: NextPage<ServerProps> = (props) => {
     <div>
       <TwitterLayout>
         <div>
-          <nav className=" flex items-center gap-3">
-            <BsArrowLeftShort className="text-4xl" />
-          </nav>
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center gap-1 mt-5">
             {props.userInfo?.profileImageURL && (
               <Image
                 src={props.userInfo.profileImageURL}
@@ -63,15 +60,19 @@ const userProfilePage: NextPage<ServerProps> = (props) => {
             )}
             <br />
             {props.userInfo?.firstName && props.userInfo.lastName && (
-              <h1 className="text-2xl font-semibold">
+              <h1 className="text-lg md:text-2xl font-semibold text-center">
                 {props.userInfo.firstName + " " + props.userInfo.lastName}
               </h1>
             )}
             <div className="flex text-md gap-3 text-slate-600">
-              <span>{props.userInfo?.followers?.length} followers</span>
-              <span>{props.userInfo?.following?.length} following</span>
+              <span className="text-sm">
+                {props.userInfo?.followers?.length} followers
+              </span>
+              <span className="text-sm">
+                {props.userInfo?.following?.length} following
+              </span>
             </div>
-            <h1 className="text-md text-slate-400 font-semibold">
+            <h1 className="text-sm md:text-md text-slate-400 font-semibold">
               {props.userInfo?.tweets?.length} Tweets
             </h1>
             {currentUser?.id !== props.userInfo?.id && (
@@ -79,7 +80,7 @@ const userProfilePage: NextPage<ServerProps> = (props) => {
                 {amIFollowing && (
                   <button
                     onClick={handleunFollowUser}
-                    className="bg-white rounded-full px-4 py-2 text-black"
+                    className="bg-white text-sm rounded-full px-2 py-1 md:px-4 md:py-2 text-black"
                   >
                     Unfollow
                   </button>

@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import Image from "next/image";
 import { BiMessageRounded, BiUpload } from "react-icons/bi";
 import { FaRetweet } from "react-icons/fa";
-import { AiOutlineHeart } from "react-icons/ai";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { Tweet } from "@/graphql/query/tweet";
 import Link from "next/link";
+import { useLikeTweet } from "@/hooks/tweet";
 
 interface FeedCardProps {
   data: Tweet;
@@ -12,6 +13,8 @@ interface FeedCardProps {
 
 const FeedCard: React.FC<FeedCardProps> = (props) => {
   const { data } = props;
+  const [overlay, setOverlay] = useState(false);
+  const { mutate: likeTweet } = useLikeTweet();
   return (
     <div className="bg-cardcol hover:shadow-lg hover:scale-105 border rounded-xl mt-5 mx-2 md:mx-5 p-3 md:p-5 border-l-0 border-b-0 border-gray-700 transition-all cursor-pointer">
       <div className="grid grid-cols-12 gap-2 md:gap-5">
@@ -38,7 +41,10 @@ const FeedCard: React.FC<FeedCardProps> = (props) => {
         <p className="text-sm md:text-lg mt-2">{data.content}</p>
 
         {data.imageURL && (
-          <div className="flex  justify-center w-full mt-3">
+          <div
+            className="flex  justify-center w-full mt-3"
+            onClick={() => setOverlay(true)}
+          >
             <Image
               src={data.imageURL}
               alt="img"
@@ -58,7 +64,15 @@ const FeedCard: React.FC<FeedCardProps> = (props) => {
           <FaRetweet />
         </div>
         <div>
-          <AiOutlineHeart />
+          <div
+            className="flex items-center gap-1"
+            onClick={() =>
+              likeTweet({ tweetId: data.id, isCurrentlyLiked: data.isLiked })
+            }
+          >
+            {data.isLiked ? <AiFillHeart /> : <AiOutlineHeart />}
+            <span>{data.likeCount ? `${data.likeCount}` : "0"}</span>
+          </div>
         </div>
         <div>
           <BiUpload />
