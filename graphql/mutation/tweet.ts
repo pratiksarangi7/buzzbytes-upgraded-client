@@ -23,3 +23,13 @@ export const unlikeTweetMutation = graphql(`
     unlikeTweet(tweetId: $tweetId)
   }
 `);
+export const createCommentMutation = graphql(
+  `
+    #graphql
+    mutation CreateComment($payload: CreateCommentData!) {
+      createComment(payload: $payload) {
+        id
+      }
+    }
+  `
+);

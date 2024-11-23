@@ -1,6 +1,7 @@
 import { graphQLClient } from "@/clients/api";
-import { CreateTweetData } from "@/gql/graphql";
+import { CreateCommentData, CreateTweetData } from "@/gql/graphql";
 import {
+  createCommentMutation,
   createTweetMutation,
   likeTweetMutation,
   unlikeTweetMutation,
@@ -109,6 +110,20 @@ export const useLikeTweet = () => {
     onSuccess: () => {
       // Optionally refetch data
       queryClient.invalidateQueries({ queryKey: ["all-tweets"] });
+    },
+  });
+};
+
+export const useCreateComment = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (payload: CreateCommentData) =>
+      graphQLClient.request(createCommentMutation, { payload }),
+    onMutate: () => toast.loading("Adding Comment...", { id: "2" }),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["all-tweets"] });
+      toast.success("Added successfully", { id: "2" });
     },
   });
 };

@@ -1,6 +1,14 @@
 import { Int } from "graphql-request/alpha/schema/scalars";
 import { graphql } from "../../gql";
 import { TypedDocumentNode } from "@graphql-typed-document-node/core";
+import { Tag } from "@/gql/graphql";
+import { User } from "./user";
+
+export interface Comment {
+  id: string;
+  content: string;
+  author: User;
+}
 
 export interface Tweet {
   id: string;
@@ -14,6 +22,8 @@ export interface Tweet {
   };
   isLiked: boolean;
   likeCount?: Int;
+  tag: Tag;
+  comments: Comment[];
 }
 
 export const getAllTweetsQuery = graphql(`
@@ -30,6 +40,17 @@ export const getAllTweetsQuery = graphql(`
       }
       isLiked
       likeCount
+      tag
+      comments {
+        id
+        content
+        author {
+          id
+          firstName
+          lastName
+          profileImageURL
+        }
+      }
     }
   }
 `);

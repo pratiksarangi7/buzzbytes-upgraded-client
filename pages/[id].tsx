@@ -9,20 +9,17 @@ import { Tweet } from "@/graphql/query/tweet";
 import { getUserByIdQuery, User } from "@/graphql/query/user";
 import { useCurrentUser } from "@/hooks/user";
 import { useQueryClient } from "@tanstack/react-query";
-import { Server } from "http";
 import type { GetServerSideProps, NextPage } from "next";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import { useCallback, useMemo } from "react";
-import { BsArrowLeftShort } from "react-icons/bs";
 
 interface ServerProps {
   userInfo?: User;
 }
 
 const userProfilePage: NextPage<ServerProps> = (props) => {
-  const router = useRouter();
   const { user: currentUser } = useCurrentUser();
+  console.log("props user info tweets logging:", props.userInfo?.tweets);
   const queryClient = useQueryClient();
   const handleFollowUser = useCallback(async () => {
     if (!props.userInfo?.id) return;
@@ -113,6 +110,7 @@ export const getServerSideProps: GetServerSideProps<ServerProps> = async (
   context
 ) => {
   const id = context.query.id as string | undefined;
+  console.log("user id: ", id);
   if (!id) {
     return { notFound: true, props: { user: undefined } };
   }
@@ -125,7 +123,7 @@ export const getServerSideProps: GetServerSideProps<ServerProps> = async (
     if (!userInfo?.getUserById) {
       return { notFound: true };
     }
-
+    console.log("user by id data:", userInfo.getUserById);
     return {
       props: { userInfo: userInfo.getUserById as User }, // Pass the fetched user data to the page component as props
     };

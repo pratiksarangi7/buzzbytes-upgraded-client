@@ -5,7 +5,7 @@ import { FaRetweet } from "react-icons/fa";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { Tweet } from "@/graphql/query/tweet";
 import Link from "next/link";
-import { useLikeTweet } from "@/hooks/tweet";
+import { useLikeTweet, useCreateComment } from "@/hooks/tweet";
 
 interface FeedCardProps {
   data: Tweet;
@@ -14,7 +14,24 @@ interface FeedCardProps {
 const FeedCard: React.FC<FeedCardProps> = (props) => {
   const { data } = props;
   const [overlay, setOverlay] = useState(false);
+  const [showComments, setShowComments] = useState(false);
+  const [commentContent, setCommentContent] = useState("");
   const { mutate: likeTweet } = useLikeTweet();
+  const { mutate: createComment } = useCreateComment();
+
+  const handleCreateComment = () => {
+    createComment({ content: commentContent, tweetId: data.id });
+    setCommentContent("");
+  };
+  const tagMapping = {
+    FFCS: "FFCS",
+    CABSHARING: "Cab Sharing",
+    LOST_AND_FOUND: "Lost and Found",
+    CAREER: "Career",
+    EVENTS: "Events",
+    EXAM_DISCUSSIONS: "Exam Discussions",
+  };
+
   return (
     <div className="bg-cardcol hover:shadow-lg hover:scale-105 border rounded-xl mt-5 mx-2 md:mx-5 p-3 md:p-5 border-l-0 border-b-0 border-gray-700 transition-all cursor-pointer">
       <div className="grid grid-cols-12 gap-2 md:gap-5">
@@ -37,28 +54,34 @@ const FeedCard: React.FC<FeedCardProps> = (props) => {
           </h5>
         </div>
       </div>
-      <div className="flex flex-col md:px-5 ">
+      <div className="flex flex-col md:px-5">
         <p className="text-sm md:text-lg mt-2">{data.content}</p>
 
         {data.imageURL && (
-          <div
-            className="flex  justify-center w-full mt-3"
-            onClick={() => setOverlay(true)}
-          >
+          <div className="flex justify-center w-full mt-3">
             <Image
               src={data.imageURL}
-              alt="img"
+              alt="tweet-image"
               height={300}
               width={300}
-              className="rounded-lg"
+              className="rounded-lg cursor-pointer"
+              onClick={() => setOverlay(true)}
             />
           </div>
         )}
       </div>
 
-      <div className="flex w-[90%] justify-between text-lg md:text-2xl mt-3 items-center mx-auto">
+      <div className="flex w-[90%] justify-between text-lg font-light md:text-2xl mt-3 items-center mx-auto">
         <div>
-          <BiMessageRounded />
+          <div className=" py-1 px-2 text-sm border border-gray-500  rounded-lg">
+            {tagMapping[data.tag]}
+          </div>
+        </div>
+        <div className="flex items-center gap-1">
+          <div onClick={() => setShowComments(!showComments)}>
+            <BiMessageRounded />
+          </div>
+          <span>{data.comments.length}</span>
         </div>
         <div>
           <FaRetweet />
@@ -74,10 +97,55 @@ const FeedCard: React.FC<FeedCardProps> = (props) => {
             <span>{data.likeCount ? `${data.likeCount}` : "0"}</span>
           </div>
         </div>
-        <div>
-          <BiUpload />
-        </div>
       </div>
+
+      {showComments && (
+        <div className="mt-2">
+          {/* Add comment form */}
+          <div className="mt-2 flex gap-1">
+            <input
+              type="text"
+              className="w-full bg-transparent text-sm p-2 border-b border-gray-400 focus:outline-none"
+              placeholder="Add a comment..."
+              value={commentContent}
+              onChange={(e) => setCommentContent(e.target.value)}
+            />
+            <button
+              onClick={handleCreateComment}
+              className="bg-buzzmain px-4 py-2 text-xs md:text-sm font-bold mt-2 rounded-full"
+            >
+              Comment
+            </button>
+          </div>
+          {/* Display comments */}
+          {data.comments && data.comments.length > 0 && (
+            <div>
+              <h6 className="text-sm font-semibold mb-2 mt-3">Comments:</h6>
+              {data.comments.map((comment) => (
+                <div key={comment.id} className="mt-2 p-3 rounded-lg shadow-sm">
+                  <div className="flex items-center">
+                    {comment.author.profileImageURL && (
+                      <Image
+                        src={comment.author.profileImageURL}
+                        alt="comment-author-img"
+                        height={30}
+                        width={30}
+                        className="rounded-full"
+                      />
+                    )}
+                    <div className="ml-3">
+                      <span className="text-sm font-medium ">
+                        {comment.author.firstName} {comment.author.lastName}
+                      </span>
+                      <p className="text-xs">{comment.content}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

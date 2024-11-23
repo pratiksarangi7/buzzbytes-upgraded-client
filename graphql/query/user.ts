@@ -51,10 +51,16 @@ export const getCurrentUserQuery = graphql(
           id
           content
           imageURL
+          isLiked
+          likeCount
+          tag
           author {
             firstName
             lastName
             profileImageURL
+          }
+          comments {
+            id
           }
         }
       }
@@ -77,8 +83,14 @@ export const getUserByIdQuery = graphql(`
           lastName
           profileImageURL
         }
+        tag
         content
         id
+        isLiked
+        likeCount
+        comments {
+          id
+        }
       }
       following {
         firstName

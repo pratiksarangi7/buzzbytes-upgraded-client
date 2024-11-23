@@ -10,6 +10,7 @@ import { verifyUserGoogleTokenQuery } from "@/graphql/query/user";
 import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import Logo from "../Logo";
+import { CiLogout } from "react-icons/ci";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -59,6 +60,12 @@ const TwitterLayout: React.FC<LayoutProps> = (props) => {
     []
   );
 
+  const handleLogout = useCallback(async () => {
+    window.localStorage.removeItem("buzzbytes_token");
+    await queryClient.invalidateQueries({ queryKey: ["current-user"] });
+    toast.success("Logged out successfully!");
+  }, [queryClient]);
+
   return (
     <div className="grid grid-cols-12 h-screen w-screen bg-bg gap-0">
       <div className="col-span-2 md:col-span-3 flex flex-col pl-1 md:pl-24 pt-8 items-center md:items-start justify-start w-full relative">
@@ -84,6 +91,13 @@ const TwitterLayout: React.FC<LayoutProps> = (props) => {
               </li>
             ))}
           </ul>
+          <div
+            onClick={handleLogout}
+            className="flex items-center gap-3 text-[20px] md:text-[21px] font-semibold cursor-pointer hover:bg-red-400 rounded-3xl w-fit px-2 py-3 text-red-600 hover:text-white transition-colors duration-200"
+          >
+            <CiLogout />
+            <span className="hidden md:block">Logout</span>
+          </div>
         </div>
         {user && (
           <div className="mt-5 absolute bottom-5 flex items-center gap-3 bg-cardcol md:px-3 md:py-2 rounded-full">
