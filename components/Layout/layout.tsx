@@ -1,5 +1,5 @@
 import { useCurrentUser } from "@/hooks/user";
-import { BiHash, BiUser } from "react-icons/bi";
+import { BiUser } from "react-icons/bi";
 import { FaHome } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa"; // Import the icon for Connections
 import Image from "next/image";

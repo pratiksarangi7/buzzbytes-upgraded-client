@@ -263,9 +263,7 @@ export default function Home(props: HomeProps) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps<HomeProps> = async (
-  context
-) => {
+export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
   const allTweets = await graphQLClient.request(getAllTweetsQuery);
   return {
     props: {

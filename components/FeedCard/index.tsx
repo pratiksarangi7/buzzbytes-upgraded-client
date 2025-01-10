@@ -1,6 +1,6 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
-import { BiMessageRounded, BiUpload } from "react-icons/bi";
+import { BiMessageRounded } from "react-icons/bi";
 import { FaRetweet } from "react-icons/fa";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { Tweet } from "@/graphql/query/tweet";
@@ -13,7 +13,6 @@ interface FeedCardProps {
 
 const FeedCard: React.FC<FeedCardProps> = (props) => {
   const { data } = props;
-  const [overlay, setOverlay] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [commentContent, setCommentContent] = useState("");
   const { mutate: likeTweet } = useLikeTweet();
@@ -64,8 +63,11 @@ const FeedCard: React.FC<FeedCardProps> = (props) => {
               alt="tweet-image"
               height={300}
               width={300}
-              className="rounded-lg cursor-pointer"
-              onClick={() => setOverlay(true)}
+              className="rounded-lg cursor-pointer max-w-full max-h-full"
+              style={{
+                maxWidth: "300px",
+                maxHeight: "300px",
+              }}
             />
           </div>
         )}
@@ -73,7 +75,7 @@ const FeedCard: React.FC<FeedCardProps> = (props) => {
 
       <div className="flex w-full md:w-[90%] justify-between text-lg font-light md:text-2xl mt-3 items-center mx-auto">
         <div>
-          <div className=" py-1 px-2 text-xs md:text-sm border border-gray-500  rounded-lg">
+          <div className="py-1 px-2 text-xs md:text-sm border border-gray-500 rounded-lg">
             {tagMapping[data.tag]}
           </div>
         </div>
