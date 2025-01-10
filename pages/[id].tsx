@@ -81,7 +81,7 @@ const userProfilePage: NextPage<ServerProps> = (props) => {
           </div>
           <div className="hidden lg:block">
             <div className="text-center text-lg md:text-xl pt-5">
-              You must log in to view this profile.
+              You must log in to view your profile.
             </div>
           </div>
         </div>
@@ -169,7 +169,6 @@ export const getServerSideProps: GetServerSideProps<ServerProps> = async (
     if (!userInfo?.getUserById) {
       return { notFound: true };
     }
-    console.log("user by id data:", userInfo.getUserById);
     return {
       props: { userInfo: userInfo.getUserById as User }, // Pass the fetched user data to the page component as props
     };

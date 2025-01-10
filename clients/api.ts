@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 const isClient = typeof window !== "undefined";
 console.log(isClient);
 export const graphQLClient = new GraphQLClient(
-  "http://localhost:8000/graphql",
+  process.env.NEXT_PUBLIC_API_URL as string,
   {
     headers: () => ({
       Authorization: isClient
