@@ -23,7 +23,7 @@ interface ServerProps {
   userInfo?: User;
 }
 
-const userProfilePage: NextPage<ServerProps> = (props) => {
+const UserProfilePage: NextPage<ServerProps> = (props) => {
   const { user: currentUser } = useCurrentUser();
   const queryClient = useQueryClient();
   const handleLoginWithGoogle = useCallback(
@@ -178,4 +178,4 @@ export const getServerSideProps: GetServerSideProps<ServerProps> = async (
   }
 };
 
-export default userProfilePage;
+export default UserProfilePage;
