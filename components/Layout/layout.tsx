@@ -1,6 +1,7 @@
 import { useCurrentUser } from "@/hooks/user";
 import { BiHash, BiUser } from "react-icons/bi";
 import { FaHome } from "react-icons/fa";
+import { FaUsers } from "react-icons/fa"; // Import the icon for Connections
 import Image from "next/image";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { useCallback, useMemo } from "react";
@@ -36,6 +37,11 @@ const TwitterLayout: React.FC<LayoutProps> = (props) => {
         title: "Profile",
         icon: <BiUser />,
         link: `${user?.id}`,
+      },
+      {
+        title: "Connections",
+        icon: <FaUsers />,
+        link: "/connections",
       },
     ],
     [user]

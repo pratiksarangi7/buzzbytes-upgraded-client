@@ -128,10 +128,21 @@ export default function Home(props: HomeProps) {
     };
   }, [dropdownRef, filterDropdownRef]);
 
-  const filteredTweets =
-    filterTag && tweets
-      ? tweets.filter((tweet) => tweet && tweet.tag === filterTag)
-      : tweets;
+  const filteredTweets = tweets
+    ? tweets.filter((tweet) => {
+        const searchLower = searchQuery.toLowerCase();
+        const matchesQuery =
+          tweet &&
+          (tweet.content.toLowerCase().includes(searchLower) ||
+            (tweet.author &&
+              (tweet.author.firstName.toLowerCase().includes(searchLower) ||
+                (tweet.author.lastName &&
+                  tweet.author.lastName.toLowerCase().includes(searchLower)))));
+        const matchesFilterTag =
+          !filterTag || (tweet && tweet.tag === filterTag);
+        return matchesQuery && matchesFilterTag;
+      })
+    : [];
 
   return (
     <TwitterLayout>
@@ -187,7 +198,7 @@ export default function Home(props: HomeProps) {
                         {Object.values(Tag).map((tag) => (
                           <div
                             key={tag}
-                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-gray-700 font-medium"
+                            className="px-4 py-2 text-sm md:text-base hover:bg-gray-100 cursor-pointer text-gray-700 font-medium"
                             onClick={() => handleTagSelect(tag)}
                           >
                             {tagDisplayNames[tag]}
@@ -208,12 +219,11 @@ export default function Home(props: HomeProps) {
           </div>
         </div>
 
-        {/* Search bar and filter button */}
-        <div className="flex  rounded-full py-2 px-1 border-2 border-cardcol pr-5 gap-3 items-center justify-between  mt-5 mx-2 md:mx-5 relative">
+        <div className="flex  rounded-xl py-2 px-1 border-2 border-cardcol pr-5 gap-3 items-center justify-between  mt-5 mx-2 md:mx-5 relative">
           <div className="relative flex items-center font-semibold text-white rounded-full p-1">
             <button
               onClick={() => setShowFilterDropdown(!showFilterDropdown)}
-              className="ml-2 text-white font-semibold rounded"
+              className="ml-2 text-white font-semibold rounded text-sm md:text-lg"
             >
               {filterTag ? `${tagDisplayNames[filterTag]}` : "Filter"}
             </button>

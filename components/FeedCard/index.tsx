@@ -71,20 +71,20 @@ const FeedCard: React.FC<FeedCardProps> = (props) => {
         )}
       </div>
 
-      <div className="flex w-[90%] justify-between text-lg font-light md:text-2xl mt-3 items-center mx-auto">
+      <div className="flex w-full md:w-[90%] justify-between text-lg font-light md:text-2xl mt-3 items-center mx-auto">
         <div>
-          <div className=" py-1 px-2 text-sm border border-gray-500  rounded-lg">
+          <div className=" py-1 px-2 text-xs md:text-sm border border-gray-500  rounded-lg">
             {tagMapping[data.tag]}
           </div>
         </div>
         <div className="flex items-center gap-1">
           <div onClick={() => setShowComments(!showComments)}>
-            <BiMessageRounded />
+            <BiMessageRounded className="text-sm md:text-xl" />
           </div>
-          <span>{data.comments.length}</span>
+          <span className="text-xs md:text-xl">{data.comments.length}</span>
         </div>
         <div>
-          <FaRetweet />
+          <FaRetweet className="text-sm md:text-xl" />
         </div>
         <div>
           <div
@@ -93,15 +93,20 @@ const FeedCard: React.FC<FeedCardProps> = (props) => {
               likeTweet({ tweetId: data.id, isCurrentlyLiked: data.isLiked })
             }
           >
-            {data.isLiked ? <AiFillHeart /> : <AiOutlineHeart />}
-            <span>{data.likeCount ? `${data.likeCount}` : "0"}</span>
+            {data.isLiked ? (
+              <AiFillHeart className="text-sm md:text-xl" />
+            ) : (
+              <AiOutlineHeart className="text-sm md:text-xl" />
+            )}
+            <span className="text-sm md:text-xl">
+              {data.likeCount ? `${data.likeCount}` : "0"}
+            </span>
           </div>
         </div>
       </div>
 
       {showComments && (
         <div className="mt-2">
-          {/* Add comment form */}
           <div className="mt-2 flex gap-1">
             <input
               type="text"
@@ -117,12 +122,16 @@ const FeedCard: React.FC<FeedCardProps> = (props) => {
               Comment
             </button>
           </div>
-          {/* Display comments */}
           {data.comments && data.comments.length > 0 && (
             <div>
-              <h6 className="text-sm font-semibold mb-2 mt-3">Comments:</h6>
+              <h6 className="text-sm font-semibold mb-1 mt-1 md:mb-2 md:mt-3">
+                Comments:
+              </h6>
               {data.comments.map((comment) => (
-                <div key={comment.id} className="mt-2 p-3 rounded-lg shadow-sm">
+                <div
+                  key={comment.id}
+                  className="mt-1 md:mt-2 p-3 rounded-lg shadow-sm"
+                >
                   <div className="flex items-center">
                     {comment.author.profileImageURL && (
                       <Image
