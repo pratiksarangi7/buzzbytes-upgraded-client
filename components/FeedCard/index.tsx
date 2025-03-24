@@ -35,7 +35,7 @@ const FeedCard: React.FC<FeedCardProps> = (props) => {
     <div className="bg-cardcol hover:shadow-lg hover:scale-105 border rounded-xl mt-5 mx-2 md:mx-5 p-3 md:p-5 border-l-0 border-b-0 border-gray-700 transition-all cursor-pointer">
       <div className="grid grid-cols-12 gap-2 md:gap-5">
         <div className="col-span-2 md:col-span-1">
-          {data.author.profileImageURL && (
+          {data.author && data.author.profileImageURL && (
             <Image
               src={data.author.profileImageURL}
               alt="user-img"
@@ -46,11 +46,13 @@ const FeedCard: React.FC<FeedCardProps> = (props) => {
           )}
         </div>
         <div className="col-span-10 md:col-span-11">
-          <h5 className="text-base md:text-xl font-semibold">
-            <Link href={`/${data.author.id}`}>
-              {data.author.firstName + " " + data.author.lastName}
-            </Link>
-          </h5>
+          {data.author && (
+            <h5 className="text-base md:text-xl font-semibold">
+              <Link href={`/${data.author.id}`}>
+                {data.author.firstName + " " + data.author.lastName}
+              </Link>
+            </h5>
+          )}
         </div>
       </div>
       <div className="flex flex-col md:px-5">
